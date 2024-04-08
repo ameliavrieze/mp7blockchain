@@ -1,5 +1,4 @@
 import java.io.PrintWriter;
-import org.w3c.dom.Node;
 
 public class BlockChain {
   Block first;
