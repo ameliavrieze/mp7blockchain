@@ -9,7 +9,7 @@ public class BlockChain {
   double blake = 0;
 
   BlockChain(int initial) {
-    Block(1, initial, null);
+    new Block(1, initial, null);
     this.alexis = initial;
     size++;
   }

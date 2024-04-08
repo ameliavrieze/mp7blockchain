@@ -1,11 +1,13 @@
+import java.nio.ByteBuffer;
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Random;
 public class Block {
   int num;
   int amount;
   Hash prevHash = null;
   Hash hash;
-  int nonce;
+  long nonce;
 
 
   Block(int num, int amount, Hash prevHash) {
@@ -17,9 +19,14 @@ public class Block {
     } catch (Exception e) {}
   }
 
-  Block(int num, int amount, Hash prevHash, long nonce){}
+  Block(int num, int amount, Hash prevHash, long nonce){
+    this.num = num;
+    this.amount = amount;
+    this.prevHash = prevHash;
+    this.nonce = nonce;
+  }
 
-  long mine() throws Exception {long count = 0;
+  long mine() throws Exception {
     Random rand = new Random();
     Hash hash;
     long nonce;
@@ -30,10 +37,19 @@ public class Block {
     return nonce;
   }
 
-  Hash computeHash(int num, int amount, Hash prevHash, long nonce) {
+  Hash computeHash(int num, int amount, Hash prevHash, long nonce) throws NoSuchAlgorithmException {
     MessageDigest md = MessageDigest.getInstance("sha-256");
-    md.update(msg.getBytes());
-    byte[] hash = md.digest();
+    byte[] intbytes = ByteBuffer.allocate(Integer.BYTES).putInt(num).array();
+    md.update(intbytes);
+    intbytes = ByteBuffer.allocate(Integer.BYTES).putInt(amount).array();
+    md.update(intbytes);
+    if (prevHash != null) {
+      md.update(prevHash.getData());
+    }
+    byte[] longbytes = ByteBuffer.allocate(Long.BYTES).putLong(nonce).array();
+    md.update(longbytes);
+    Hash hash = new Hash(md.digest());
+    
     return hash;
 
   }
@@ -58,7 +74,7 @@ public class Block {
     return this.hash;
   }
 
-  String toString() {
+  public String toString() {
     return ("Block: " + this.num + "(Amount: " + this.amount + ", Nonce: " + this.nonce + ", prevHash: " + this.prevHash + ", hash: " + this.hash + ")");
   }
 }
