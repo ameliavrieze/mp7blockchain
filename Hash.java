@@ -38,13 +38,5 @@ public class Hash {
     return false;
   }
 
-public static byte[] calculateHash(String msg) throws NoSuchAlgorithmException {
-    MessageDigest md = MessageDigest.getInstance("sha-256");
-    md.update(msg.getBytes());
-    byte[] hash = md.digest();
-    return hash;
-    
-} // calculateHash(String)
-
 
 }
