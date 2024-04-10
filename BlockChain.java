@@ -1,14 +1,15 @@
 import java.io.PrintWriter;
 
 public class BlockChain {
-  Block first;
-  Block last;
+  Node first;
+  Node last;
   int size;
-  double alexis;
-  double blake = 0;
+  int alexis;
+  int blake = 0;
 
   BlockChain(int initial) {
-    new Block(1, initial, null);
+    this.first = new Node(new Block(1, initial, null));
+    this.last = this.first;
     this.alexis = initial;
     size++;
   }
@@ -21,7 +22,7 @@ public class BlockChain {
       this.alexis -= amount;
       this.blake += amount;
     }
-    Block block = new Block(this.size++, amount, this.last.getHash());
+    Block block = new Block(++this.size, Math.abs(amount), this.last.current.getHash());
     return block;
 
   }
@@ -32,35 +33,49 @@ public class BlockChain {
 
   void append(Block blk) throws IllegalArgumentException {
     this.size++;
-    //link last to this one
-    //check validity
-    this.last = blk;
-    //STUB
+    Node next = new Node(blk);
+    this.last.setNext(next);
+    this.last = next;
+    if (!isValidBlockChain()) {
+      removeLast();
+      throw new IllegalArgumentException();
+    }
+
   }
 
   boolean removeLast() {
-    if (this.size == 0) {
+    if (this.size < 2) {
       return false;
     }
-    //get previous somehow
-    //set previous to last
+    Node temp = this.first;
+    for (int i = 1; i < this.size - 1; i++) {
+      temp = temp.next;
+    }
+    this.last = temp;
+    temp.setNext(null);
     this.size--;
     return true;
-    //STUB
   }
 
   Hash getHash() {
-    return this.last.getHash();
+    return this.last.current.getHash();
   }
 
   boolean isValidBlockChain() {
-    //if every block is valid
-    //and the amounts are valid
-    //return true
-    //else
-    //maybe remove the last one
-    return false;
-    //STUB
+    Node temp = this.first;
+    while (temp.next != null) {
+      try {
+        Block current = temp.current;
+        if (current.computeHash(current.num, current.amount, current.prevHash, current.nonce) 
+            != temp.next.current.prevHash) {
+              return false;
+        }
+      } catch (Exception e) {
+        return false;
+      }
+      temp = temp.next;
+    }
+    return true;
   }
 
   void printBalances(PrintWriter pen) {
@@ -68,17 +83,27 @@ public class BlockChain {
   }
 
   public String toString() {
-    //for all the blocks
-    //block toString()
-    //appended together
-    return ""; //STUB
-
+    Node temp = this.first;
+    String str = "";
+    while (temp != null) {
+      str += temp.current.toString() + "\n";
+    }
+    return str;
   }
 
 
-  public static class Node {
+  public class Node {
+    Block current;
+    Node next;
     
+    public Node(Block current) {
+      this.current = current;
+      this.next = null;
+    }
 
+    void setNext(Node next){
+      this.next = next;
+    }
 
 
   }

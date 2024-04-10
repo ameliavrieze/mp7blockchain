@@ -4,7 +4,7 @@ import java.util.Scanner;
 public class BlockChainDriver {
     public static void main(String[] args) throws Exception {
         if (args.length != 1) {
-            System.err.println("You need to have an initial amount of Block");
+            System.err.println("You need to have an initial amount for Block 1");
             return;
           }
         Scanner myScanner= new Scanner(System.in);
@@ -13,12 +13,12 @@ public class BlockChainDriver {
         System.out.println(myBlockChain.toString());
         String input;
         do{
-            Pen.print("Command? ");
+            Pen.println("Command? ");
             input = myScanner.nextLine();
             switch(input){
                 case "mine":{
                     try {
-                        System.out.print("Amount transferred? ");
+                        System.out.println("Amount transferred? ");
                         String transAmountInput = myScanner.nextLine();
                         int transAmountInt = Integer.parseInt(transAmountInput);
                         Block tempBlock = myBlockChain.mine(transAmountInt);
@@ -44,7 +44,7 @@ public class BlockChainDriver {
                         System.out.print("Nonce? ");
                         String nonceInput = myScanner.nextLine();
                         Long nonceInt = Long.parseLong(nonceInput);
-                        Block tempBlock = new Block(myBlockChain.last.getNum() + 1, transAmountInt, myBlockChain.last.getHash(), nonceInt);
+                        Block tempBlock = new Block(myBlockChain.last.current.getNum() + 1, transAmountInt, myBlockChain.last.current.getHash(), nonceInt);
                         myBlockChain.append(tempBlock);
                         System.out.println("Block successfully appended.");
                     } catch (NumberFormatException e) {
