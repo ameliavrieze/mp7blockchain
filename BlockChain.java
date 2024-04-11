@@ -9,7 +9,6 @@ public class BlockChain {
 
   BlockChain(int initial) {
     this.first = new Node(new Block(1, initial, null));
-    System.out.println("check Block Chain created");
     this.last = this.first;
     this.alexis = initial;
     size++;
@@ -49,7 +48,7 @@ public class BlockChain {
       return false;
     }
     Node temp = this.first;
-    for (int i = 1; i < this.size - 1; i++) {
+    while(temp.next.next != null) {
       temp = temp.next;
     }
     this.last = temp;

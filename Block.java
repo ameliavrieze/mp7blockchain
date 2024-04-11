@@ -34,7 +34,6 @@ public class Block {
       nonce = rand.nextLong();
       hash = computeHash(num, amount, prevHash, nonce);
     } while (!hash.isValid());
-    System.out.println("check mine");
     return nonce;
   }
 
