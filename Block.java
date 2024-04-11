@@ -16,6 +16,7 @@ public class Block {
     this.prevHash = prevHash;
     try {
     this.nonce = mine();
+    this.hash = computeHash(this.num, this.amount, this.prevHash, this.amount);
     } catch (Exception e) {}
   }
 
@@ -24,6 +25,9 @@ public class Block {
     this.amount = amount;
     this.prevHash = prevHash;
     this.nonce = nonce;
+    try {
+    this.hash = computeHash(this.num, this.amount, this.prevHash, this.nonce);
+    } catch (Exception e) {}
   }
 
   long mine() throws Exception {
