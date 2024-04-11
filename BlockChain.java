@@ -47,7 +47,6 @@ public class BlockChain {
       System.err.println("Not valid block chain.");
       throw new IllegalArgumentException();
     }
-
   }
 
   boolean removeLast() {
@@ -67,14 +66,14 @@ public class BlockChain {
   Hash getHash() {
     return this.last.current.getHash();
   }
-
+/* 
   boolean isValidBlockChain() {
     Node temp = this.first;
-    while (temp.next != null) {
+    while (temp.next!= null) {
+      Block block = temp.current;
+      int totalAmount=0;
       try {
-        Block block = temp.current;
-        if (!block.computeHash(block.num, block.amount, block.prevHash, block.nonce)
-            .equals(temp.next.current.prevHash)) {
+        if (!block.getHash().equals(temp.next.current.prevHash)) {
               return false;
         }
       } catch (Exception e) {
@@ -82,14 +81,47 @@ public class BlockChain {
         return false;
       }
       temp = temp.next;
+      totalAmount=totalAmount+block.getAmount();
+      System.out.println("amount:"+block.getAmount());
+      System.out.println("total amount:"+totalAmount);
+      if (totalAmount <0) {
+        return false;
+      } // if
     }
     return true;
   }
+  */
+boolean isValidBlockChain() {
+    Node temp = this.first;
+    int totalAmount = 0;  
+    if (temp == null) {
+        System.err.println("Blockchain is empty.");
+        return false;
+    }
+    Hash lastHash = null;  
+    while (temp != null) {  
+        Block block = temp.current;
+        //System.out.println("amount:" + block.getAmount());
+        totalAmount += block.getAmount();
+        //System.out.println("total amount:" + totalAmount);
+        if (lastHash != null && !block.prevHash.equals(lastHash)) {
+            System.err.println("Hash chain is broken at block with amount " + block.getAmount());
+            return false;
+        }
+        lastHash = block.getHash();
+        temp = temp.next;
+    }
+    if (totalAmount < 0) {
+        System.err.println("Invalid blockchain: total amount is negative.");
+        return false;
+    }
+    return true;
+}
 
   void printBalances(PrintWriter pen) {
     pen.println("Alexis: " + alexis + ", Blake: " + blake);
   }
-
+  
   public String toString() {
     Node temp = this.first;
     String str = "";

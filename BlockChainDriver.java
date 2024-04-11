@@ -40,8 +40,6 @@ public class BlockChainDriver {
                         System.out.print("Amount transferred? ");
                         String transAmountInput = myScanner.nextLine();
                         transAmountInt = Integer.parseInt(transAmountInput);
-                        //Block tempBlock = myBlockChain.mine(transAmountInt);
-                        //System.out.printf("amount = %d, nonce = %d%n", transAmountInt, tempBlock.getNonce());
                     } catch (NumberFormatException e) {
                         System.out.println("Please enter a valid amount transferred.");
                         continue;
@@ -85,14 +83,18 @@ public class BlockChainDriver {
                             "    report: reports the balances of Alexis and Blake\n" + //
                             "    help: prints this list of commands\n" + //
                             "    quit: quits the program");
-                            break;
-                }
-                default: 
+                            continue;
+                }case "quit":{
+                    Pen.close();
+                    myScanner.close();
+                    System. exit(0);
+                }           
+                default: {
                     Pen.println("Invalid command");
+                    continue;
+                }
             }
             Pen.println(myBlockChain.toString());
-        }while(!input.equals("quit"));
-        Pen.close();
-        myScanner.close();
+        }while(true);
     }   
 }
