@@ -25,8 +25,8 @@ public class BlockChainDriver {
                         System.out.printf("amount = %d, nonce = %d%n", transAmountInt, tempBlock.getNonce());
                     } catch (NumberFormatException e) {
                         System.out.println("Please enter a valid amount transferred.");
-                        continue;
                     }
+                    break;
                 }
                 case "append":{
                     int transAmountInt;
@@ -51,10 +51,12 @@ public class BlockChainDriver {
                         System.out.println("Please enter a valid nonce.");
                     } catch (Exception e) {
                         System.err.println("Transaction failed");
-                    }                    
+                    }  
+                    break;                  
                 }
                 case "remove":{
                     myBlockChain.removeLast();
+                    break;
                 }
                 case "check":{
                     if (myBlockChain.isValidBlockChain()) {
@@ -62,9 +64,11 @@ public class BlockChainDriver {
                       } else {
                         System.out.println("Chain is invalid.");
                       }
+                      break;
                 }
                 case "report":{
                     myBlockChain.printBalances(Pen);
+                    break;
                 }
                 case "help":{
                     Pen.println("Valid commands:\n" + //
@@ -75,6 +79,7 @@ public class BlockChainDriver {
                             "    report: reports the balances of Alexis and Blake\n" + //
                             "    help: prints this list of commands\n" + //
                             "    quit: quits the program");
+                            break;
                 }
                 default: 
                     Pen.println("Invalid command");

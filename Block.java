@@ -33,7 +33,8 @@ public class Block {
     do {
       nonce = rand.nextLong();
       hash = computeHash(num, amount, prevHash, nonce);
-    } while (! hash.isValid());
+    } while (!hash.isValid());
+    System.out.println("check mine");
     return nonce;
   }
 
@@ -49,7 +50,6 @@ public class Block {
     byte[] longbytes = ByteBuffer.allocate(Long.BYTES).putLong(nonce).array();
     md.update(longbytes);
     Hash hash = new Hash(md.digest());
-    
     return hash;
 
   }

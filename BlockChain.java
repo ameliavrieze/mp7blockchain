@@ -9,6 +9,7 @@ public class BlockChain {
 
   BlockChain(int initial) {
     this.first = new Node(new Block(1, initial, null));
+    System.out.println("check Block Chain created");
     this.last = this.first;
     this.alexis = initial;
     size++;
@@ -87,6 +88,7 @@ public class BlockChain {
     String str = "";
     while (temp != null) {
       str += temp.current.toString() + "\n";
+      temp = temp.next;
     }
     return str;
   }

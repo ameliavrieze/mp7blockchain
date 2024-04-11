@@ -18,6 +18,7 @@ public class Hash {
         return false;
       }
     }
+    System.out.println("check is valid");
     return true;
   }
 
