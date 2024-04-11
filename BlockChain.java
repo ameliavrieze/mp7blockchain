@@ -1,5 +1,11 @@
 import java.io.PrintWriter;
 
+/**
+ * A BlockChain structure with utilities for appending, traversing, and validating BlockChain transactions.
+ * @author Amelia Vrieze
+ * @author Linda Jing
+ */
+
 public class BlockChain {
   Node first;
   Node last;
@@ -22,7 +28,7 @@ public class BlockChain {
       this.alexis -= amount;
       this.blake += amount;
     }
-    Block block = new Block(++this.size, Math.abs(amount), this.last.current.getHash());
+    Block block = new Block(++this.size, amount, this.last.current.getHash());
     return block;
 
   }
@@ -38,6 +44,7 @@ public class BlockChain {
     this.last = next;
     if (!isValidBlockChain()) {
       removeLast();
+      System.err.println("Not valid block chain.");
       throw new IllegalArgumentException();
     }
 
@@ -65,12 +72,13 @@ public class BlockChain {
     Node temp = this.first;
     while (temp.next != null) {
       try {
-        Block current = temp.current;
-        if (current.computeHash(current.num, current.amount, current.prevHash, current.nonce) 
-            != temp.next.current.prevHash) {
+        Block block = temp.current;
+        if (!block.computeHash(block.num, block.amount, block.prevHash, block.nonce)
+            .equals(temp.next.current.prevHash)) {
               return false;
         }
       } catch (Exception e) {
+        System.err.println("Exception in isValidBlockChain");
         return false;
       }
       temp = temp.next;

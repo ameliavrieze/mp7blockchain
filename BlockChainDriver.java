@@ -1,6 +1,12 @@
 import java.io.PrintWriter;
 import java.util.Scanner;
 
+/**
+ * A main method for user interaction with the BlockChain.
+ * @author Linda Jing
+ * @author Amelia Vrieze
+ */
+
 public class BlockChainDriver {
     public static void main(String[] args) throws Exception {
         if (args.length != 1) {
@@ -34,8 +40,8 @@ public class BlockChainDriver {
                         System.out.print("Amount transferred? ");
                         String transAmountInput = myScanner.nextLine();
                         transAmountInt = Integer.parseInt(transAmountInput);
-                        Block tempBlock = myBlockChain.mine(transAmountInt);
-                        System.out.printf("amount = %d, nonce = %d%n", transAmountInt, tempBlock.getNonce());
+                        //Block tempBlock = myBlockChain.mine(transAmountInt);
+                        //System.out.printf("amount = %d, nonce = %d%n", transAmountInt, tempBlock.getNonce());
                     } catch (NumberFormatException e) {
                         System.out.println("Please enter a valid amount transferred.");
                         continue;
@@ -48,7 +54,7 @@ public class BlockChainDriver {
                         myBlockChain.append(tempBlock);
                         System.out.println("Block successfully appended.");
                     } catch (NumberFormatException e) {
-                        System.out.println("Please enter a valid nonce.");
+                        System.err.println("Please enter a valid nonce.");
                     } catch (Exception e) {
                         System.err.println("Transaction failed");
                     }  

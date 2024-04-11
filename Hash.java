@@ -1,6 +1,12 @@
 import java.util.Arrays;
 import java.lang.Byte;
 
+/**
+ * A wrapper class for a cryptographic hashcode.
+ * @author Amelia Vrieze
+ * @author Linda Jing
+ */
+
 public class Hash {
   byte[] hash;
 
@@ -14,7 +20,7 @@ public class Hash {
 
   boolean isValid() {
     for (int i = 0; i < 3; i++) {
-      if (this.hash[i] != 0) {
+      if (Byte.toUnsignedInt(this.hash[i]) != 0) {
         return false;
       }
     }
