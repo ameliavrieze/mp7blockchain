@@ -24,7 +24,7 @@ public class Hash {
   public String toString() {
     StringBuilder str = new StringBuilder();
     for (int i = 0; i < this.hash.length; i++) {
-      str.append(String.format("h", Byte.toUnsignedInt(this.hash[i])));
+      str.append(String.format("%h", Byte.toUnsignedInt(this.hash[i])));
     }
     return new String(str);
   }
