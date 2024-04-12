@@ -21,11 +21,8 @@ public class BlockChain {
   }
 
   Block mine(int amount) {
-      this.alexis += amount;
-      this.blake -= amount;
     Block block = new Block(++this.size, amount, this.last.current.getHash());
     return block;
-
   }
 
   int getSize() {
@@ -34,10 +31,12 @@ public class BlockChain {
 
   void append(Block blk) throws IllegalArgumentException {
     this.size++;
+    this.alexis += blk.getAmount();
+    this.blake -= blk.getAmount();
     Node next = new Node(blk);
     this.last.setNext(next);
     this.last = next;
-    if (!isValidBlockChain()) {
+    if (!isValidBlockChain() || !blk.getHash().isValid()) {
       removeLast();
       System.err.println("Not valid block chain.");
       throw new IllegalArgumentException();

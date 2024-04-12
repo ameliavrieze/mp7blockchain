@@ -24,7 +24,7 @@ public class Block {
     this.prevHash = prevHash;
     try {
     this.nonce = mine();
-    this.hash = computeHash(this.num, this.amount, this.prevHash, this.amount);
+    this.hash = computeHash(this.num, this.amount, this.prevHash, this.nonce);
     } catch (Exception e) {
       System.err.println("Block initialize failed.");
     }
@@ -37,6 +37,9 @@ public class Block {
     this.nonce = nonce;
     try {
     this.hash = computeHash(this.num, this.amount, this.prevHash, this.nonce);
+    if (!this.hash.isValid()) {
+      throw new Exception();
+    }
     } catch (Exception e) {
       System.err.println("Block initialize failed.");
     }
@@ -53,7 +56,7 @@ public class Block {
     return testNonce;
   }
 
-  Hash computeHash(int num, int amount, Hash prevHash, long nonce) throws NoSuchAlgorithmException {
+  Hash computeHash(int num, int amount, Hash prevHash, long _nonce) throws NoSuchAlgorithmException {
     MessageDigest md = MessageDigest.getInstance("sha-256");
     byte[] intbytes = ByteBuffer.allocate(Integer.BYTES).putInt(num).array();
     md.update(intbytes);
@@ -62,7 +65,7 @@ public class Block {
     if (prevHash != null) {
       md.update(prevHash.getData());
     }
-    byte[] longbytes = ByteBuffer.allocate(Long.BYTES).putLong(nonce).array();
+    byte[] longbytes = ByteBuffer.allocate(Long.BYTES).putLong(_nonce).array();
     md.update(longbytes);
     Hash newhash = new Hash(md.digest());
     return newhash;
