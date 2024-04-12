@@ -63,34 +63,9 @@ public class BlockChain {
   Hash getHash() {
     return this.last.current.getHash();
   }
-/* 
-  boolean isValidBlockChain() {
-    Node temp = this.first;
-    while (temp.next!= null) {
-      Block block = temp.current;
-      int totalAmount=0;
-      try {
-        if (!block.getHash().equals(temp.next.current.prevHash)) {
-              return false;
-        }
-      } catch (Exception e) {
-        System.err.println("Exception in isValidBlockChain");
-        return false;
-      }
-      temp = temp.next;
-      totalAmount=totalAmount+block.getAmount();
-      System.out.println("amount:"+block.getAmount());
-      System.out.println("total amount:"+totalAmount);
-      if (totalAmount <0) {
-        return false;
-      } // if
-    }
-    return true;
-  }
-  */
+
 boolean isValidBlockChain() {
-    Node temp = this.first;
-    //int totalAmount = 0;  
+    Node temp = this.first; 
     if (temp == null) {
         System.err.println("Blockchain is empty.");
         return false;
@@ -98,9 +73,6 @@ boolean isValidBlockChain() {
     Hash lastHash = null;  
     while (temp != null) {  
         Block block = temp.current;
-        //System.out.println("amount:" + block.getAmount());
-        //totalAmount += block.getAmount();
-        //System.out.println("total amount:" + totalAmount);
         if (lastHash != null && !block.prevHash.equals(lastHash)) {
             System.err.println("Hash chain is broken at block with amount " + block.getAmount());
             return false;
