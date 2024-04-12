@@ -59,7 +59,11 @@ public class BlockChainDriver {
                     break;                  
                 }
                 case "remove":{
-                    myBlockChain.removeLast();
+                    try {
+                        myBlockChain.removeLast();
+                    } catch (Exception e) {
+                        System.err.println("Cannot remove first block.");
+                    }
                     break;
                 }
                 case "check":{

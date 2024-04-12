@@ -21,13 +21,8 @@ public class BlockChain {
   }
 
   Block mine(int amount) {
-    if (amount > 0) {
       this.alexis += amount;
       this.blake -= amount;
-    } else {
-      this.alexis -= amount;
-      this.blake += amount;
-    }
     Block block = new Block(++this.size, amount, this.last.current.getHash());
     return block;
 
@@ -58,6 +53,8 @@ public class BlockChain {
       temp = temp.next;
     }
     this.last = temp;
+    this.alexis -= this.last.next.current.getAmount();
+    this.blake += this.last.next.current.getAmount();
     temp.setNext(null);
     this.size--;
     return true;
@@ -93,7 +90,7 @@ public class BlockChain {
   */
 boolean isValidBlockChain() {
     Node temp = this.first;
-    int totalAmount = 0;  
+    //int totalAmount = 0;  
     if (temp == null) {
         System.err.println("Blockchain is empty.");
         return false;
@@ -102,7 +99,7 @@ boolean isValidBlockChain() {
     while (temp != null) {  
         Block block = temp.current;
         //System.out.println("amount:" + block.getAmount());
-        totalAmount += block.getAmount();
+        //totalAmount += block.getAmount();
         //System.out.println("total amount:" + totalAmount);
         if (lastHash != null && !block.prevHash.equals(lastHash)) {
             System.err.println("Hash chain is broken at block with amount " + block.getAmount());
@@ -111,15 +108,15 @@ boolean isValidBlockChain() {
         lastHash = block.getHash();
         temp = temp.next;
     }
-    if (totalAmount < 0) {
-        System.err.println("Invalid blockchain: total amount is negative.");
+    if (this.alexis < 0 || this.blake < 0) {
+        System.err.println("Invalid blockchain: negative account balance.");
         return false;
     }
     return true;
 }
 
   void printBalances(PrintWriter pen) {
-    pen.println("Alexis: " + alexis + ", Blake: " + blake);
+    pen.println("Alexis: " + this.alexis + ", Blake: " + this.blake);
   }
   
   public String toString() {
